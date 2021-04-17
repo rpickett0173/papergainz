@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 """PaperGainz URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -32,6 +33,8 @@ urlpatterns = [
     path('Inventory.html', views.inventory)
 
 =======
+=======
+>>>>>>> parent of 43cf074 (t)
 from django.urls import path, include
 
 from django.contrib import admin
@@ -52,5 +55,8 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
+<<<<<<< HEAD
+>>>>>>> parent of 43cf074 (t)
+=======
 >>>>>>> parent of 43cf074 (t)
 ]
