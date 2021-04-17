@@ -29,12 +29,12 @@ def CSGO(request):
 def eSports(request):
     return render(request, 'eSports.html')
 def myBets(request):
-    return render(request, 'MyBets.html')
+    return render(request, 'myBets.html')
 def sports(request):
-    return render(request, 'Sports.html')
+    return render(request, 'sports.html')
 def rewards(request):
-    return render(request, 'Rewards.html')
+    return render(request, 'rewards.html')
 def myProfile(request):
-    return render(request, 'MyProfile.html')
+    return render(request, 'myProfile.html')
 def inventory(request):
-    return render(request, 'Inventory.html')
+    return render(request, 'inventory.html')
