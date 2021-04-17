@@ -8,10 +8,15 @@ def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html")
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     return render(request, "Rewards.html")
     return render(request, "Sports.html")
 >>>>>>> parent of b2556ab (t)
+=======
+    return render(request, "Rewards.html")
+    return render(request, "Sports.html")
+>>>>>>> parent of 43cf074 (t)
 
 
 def db(request):
