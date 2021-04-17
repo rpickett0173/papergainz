@@ -7,6 +7,11 @@ from .models import Greeting
 def index(request):
     # return HttpResponse('Hello from Python!')
     return render(request, "index.html")
+<<<<<<< HEAD
+=======
+    return render(request, "Rewards.html")
+    return render(request, "Sports.html")
+>>>>>>> parent of b2556ab (t)
 
 
 def db(request):
