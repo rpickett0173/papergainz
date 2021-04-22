@@ -13,6 +13,8 @@ urlpatterns = [
 ]
 
 urlpatterns = patterns(
+        path('Home.html', views.hello, name='hello'),
+        path('Sign.html', views.signUp, name='signUp')
     'gallery.core.views',
     url(r'^$', 'home', name='home'),
     url(r'^gallery/$', GalleryList.as_view(), name='gallery_list'),
