@@ -14,7 +14,7 @@ admin.autodiscover()
 
 urlpatterns = [
     path("", hello.views.index, name="hello"),
-    path("db/", hello.views.db, name="db"),
+    # path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
     path('admin/', admin.site.urls),
     path('Home.html', views.home),
@@ -25,7 +25,8 @@ urlpatterns = [
     path('Sports.html', views.sports),
     path('Rewards.html', views.rewards),
     path('My Profile.html', views.myProfile),
-    path('Inventory.html', views.inventory)
+    path('Inventory.html', views.inventory),
+    path('test.html', views.test)
 ]
 
 # urlpatterns = [

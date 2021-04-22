@@ -1,8 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Greeting
+# from .models import Greeting
 import requests
 import os
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from hello.models import Users
 
 # Create your views here.
 def index(request):
@@ -10,14 +14,14 @@ def index(request):
 
 
 
-def db(request):
+# def db(request):
 
-    greeting = Greeting()
-    greeting.save()
+#     greeting = Greeting()
+#     greeting.save()
 
-    greetings = Greeting.objects.all()
+#     greetings = Greeting.objects.all()
 
-    return render(request, "db.html", {"greetings": greetings})
+#     return render(request, "db.html", {"greetings": greetings})
 
 
 def home(request):
@@ -38,3 +42,23 @@ def myProfile(request):
     return render(request, 'myProfile.html')
 def inventory(request):
     return render(request, 'inventory.html')
+
+def test(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            print(username)
+            print(raw_password)
+            temp=Users(username=username,password=raw_password)
+            temp.save()
+
+            # user = authenticate(username=username, password=raw_password)
+            # login(request, user)
+            return redirect('Home.html')
+    else:
+        print("failed")
+        form = UserCreationForm()
+    return render(request, 'test.html', {'form': form})
