@@ -1,6 +1,11 @@
+from django.contrib.auth import login, authenticate
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.http import HttpResponse
+from hello.models import Users
 from .models import Greeting
+
 import requests
 import os
 
