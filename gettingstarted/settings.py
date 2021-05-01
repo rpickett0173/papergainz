@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import django_heroku
+#import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "hello",
+    "hello.apps.HomeConfig",
 ]
 
 MIDDLEWARE = [
@@ -76,10 +76,22 @@ WSGI_APPLICATION = "gettingstarted.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE" : "django.db.backends.sqlite3",
+#         "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+#     }
+# }
+
+#postgres 315 database information
 DATABASES = {
-    "default": {
-        "ENGINE" : "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'db905_group15_project3',
+        'USER': 'waters',
+        'PASSWORD': 'password',
+        'HOST': 'csce-315-db.engr.tamu.edu',
+        'PORT': '5432',
     }
 }
 
@@ -112,10 +124,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-# MEDIA_ROOT = '<your_path>/media'
-# MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
