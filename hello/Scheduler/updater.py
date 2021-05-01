@@ -6,7 +6,7 @@ def start():
     scheduler = BackgroundScheduler()
     gamedata = GameData_Handler()
     #scheduler.add_job(gamedata.DotaRank,"interval", minutes=1, id="game_collector_001", replace_existing=True)
-    scheduler.add_job(gamedata.get_api_data,"cron",hour=22 ,minute=33,second=00, id="API_job", replace_existing=True)
+    scheduler.add_job(gamedata.get_api_data,"cron",hour=10 ,minute=30,second=00, id="API_job", replace_existing=True)
     #scheduler.add_job(gamedata.calculate_payout_esport,"cron",hour=23 ,minute=59,second=59, id="Payout_job", replace_existing=True)
 
     scheduler.start()
