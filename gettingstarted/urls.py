@@ -16,31 +16,30 @@ urlpatterns = [
     path("", hello.views.index, name="hello"),
     # path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
-    path('admin/', admin.site.urls),
     path('Home.html', views.home),
     path('Sign Up.html', views.signUp),
+    path('Login.html', views.login_view),
     path('CSGO.html', views.CSGO),
-    path('CSGO_1.html', views.CSGO_1),
     path('DOTA.html', views.DOTA),
-    path('DOTA_1.html', views.DOTA_1),
-    path('league.html', views.league),
-    path('league_1.html', views.league_1),
+    path('Player Rankings.html', views.player_rankings),
+    path('League.html', views.League),
     path('Baseball.html', views.Baseball),
-    path('Baseball_1.html', views.Baseball_1),
+    path('Hockey.html', views.Hockey),
     path('Basketball.html', views.Basketball),
-    path('Basketball_1.html', views.Basketball_1),
-    path('Football.html', views.Football),
-    path('Football_1.html', views.Football_1),        
     path('eSports.html', views.eSports),
     path('My Bets.html', views.myBets),
     path('Sports.html', views.sports),
     path('Rewards.html', views.rewards),
     path('My Profile.html', views.myProfile),
     path('Inventory.html', views.inventory),
-    path('test.html', views.test)
+    path('test.html', views.test),
+    path('test_mybets.html', views.test_mybets, name='test_mybets'),
+    path('bet_button.html', views.bet_button),
+
+
 ]
 
-# urlpatterns = [
+# urltestpatterns = [
     # path('admin/', admin.site.urls),
     # path('Home.html', views.home),
     # path('Sign Up.html', views.signUp),
