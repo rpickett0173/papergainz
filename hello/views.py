@@ -64,7 +64,7 @@ def login_view(request):
             request.session.set_expiry(0)
 
             # Give user payout
-            if last_login.date() < datetime.date.today():
+            if (last_login.date() == None) or (last_login.date() < datetime.date.today()):
                 current_user = Users.objects.get(username=user)
                 current_user.balance = current_user.balance + 1000
                 current_user.save()
