@@ -84,13 +84,24 @@ WSGI_APPLICATION = "gettingstarted.wsgi.application"
 # }
 
 #postgres 315 database information
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'db905_group15_project3',
+#         'USER': 'waters',
+#         'PASSWORD': 'password',
+#         'HOST': 'csce-315-db.engr.tamu.edu',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db905_group15_project3',
-        'USER': 'waters',
-        'PASSWORD': 'password',
-        'HOST': 'csce-315-db.engr.tamu.edu',
+        'NAME': 'postgresql-objective-54670',
+        'USER': 'rdyyupaywgbclh',
+        'PASSWORD': 'd84b60aab0d138627fcfa0a507672789d3df45097ea576b4bc0be08b9921e5a2',
+        'HOST': 'ec2-34-203-155-237.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
