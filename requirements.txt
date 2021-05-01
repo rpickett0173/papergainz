@@ -4,3 +4,5 @@ django-heroku
 requests
 apscheduler
 sportsipy
+datetime
+json
