@@ -124,7 +124,7 @@ def CSGO(request):
             team1=game.team1
             team2=game.team2
             current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
+            if (bet_amount < current_user.balance and game.time_data.time() > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%H:%M:%S"), '%H:%M:%S').time()):
                 current_user.balance = current_user.balance - bet_amount
                 current_user.save()
                 temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount, team1=team1, team2=team2, team_bet=team_bet,username= current_user)
@@ -156,7 +156,7 @@ def League(request):
             team1=game.team1
             team2=game.team2
             current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
+            if (bet_amount < current_user.balance and game.time_data.time() > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%H:%M:%S"), '%H:%M:%S').time()):
                 current_user.balance = current_user.balance - bet_amount
                 current_user.save()
                 temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
@@ -188,7 +188,7 @@ def DOTA(request):
             team1=game.team1
             team2=game.team2
             current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
+            if (bet_amount < current_user.balance and game.time_data.time() > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%H:%M:%S"), '%H:%M:%S').time()):
                 current_user.balance = current_user.balance - bet_amount
                 current_user.save()
                 temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
