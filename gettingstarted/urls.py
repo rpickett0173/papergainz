@@ -25,7 +25,7 @@ urlpatterns = [
 
     path('eSports.html', views.eSports, name='eSports'),
     path('CSGO.html', views.CSGO, name='CS:GO'),
-    path('League.html', views.League, name='League of Legends'),
+    path('league.html', views.league, name='League of Legends'),
     path('DOTA.html', views.DOTA, name='DOTA 2'),
     path('Player Rankings.html', views.player_rankings, name='Dota Pro Player Rankings'),
 

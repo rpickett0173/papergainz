@@ -135,7 +135,7 @@ def CSGO(request):
     return render(request, 'CSGO.html', context)
 
 
-def League(request):
+def league(request):
     gameData= Games.objects.all()
 
     form = BetForm(request.POST or None)
@@ -164,7 +164,7 @@ def League(request):
         'gameData' : gameData
     }
 
-    return render(request, 'League.html', context)
+    return render(request, 'league.html', context)
 
 
 def DOTA(request):
