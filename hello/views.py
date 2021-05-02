@@ -609,6 +609,7 @@ class GameData_Handler():
                 Bball_Game_Counter += 1
                 if (game.datetime.date() < today):
                     gameID = Bball_ID + str(Bball_Game_Counter)
+                    gameID=int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
@@ -656,6 +657,7 @@ class GameData_Handler():
                 Baseball_Game_Counter += 1
                 if (today > game.datetime.date()):
                     gameID = Baseball_ID + str(Baseball_Game_Counter)
+                    gameID=int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
