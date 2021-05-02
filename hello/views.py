@@ -37,6 +37,8 @@ def signUp(request):
             print(raw_password)
             temp=Users(username=username, password=raw_password, balance=10000)
             temp.save()
+            login(request, username)
+            request.session.set_expiry(0)
 
             # user = authenticate(username=username, password=raw_password)
             # login(request, user)
