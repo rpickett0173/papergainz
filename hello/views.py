@@ -789,7 +789,7 @@ class GameData_Handler():
                     if (add_to_list != False):
                         print("\nTeam 2: ", team.name)
                         print("\nStarting time", startTime)
-                        Game_ID = Baseball_ID + str(Bball_Game_Counter)
+                        Game_ID = Baseball_ID + str(Baseball_Game_Counter)
                         Game_data = Games(name=gameName, time_data=startTime, sport='baseball', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=Game_ID)
                         Game_data.save()
                         print("\ndata added")
