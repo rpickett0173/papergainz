@@ -37,8 +37,6 @@ def signUp(request):
             print(raw_password)
             temp=Users(username=username, password=raw_password, balance=10000)
             temp.save()
-            login(request, username)
-            request.session.set_expiry(0)
 
             # user = authenticate(username=username, password=raw_password)
             # login(request, user)
@@ -62,7 +60,12 @@ def login_view(request):
             print(user)
             # Give user payout
 
-            if ((last_login.date() == None) or (last_login.date() < datetime.datetime.today())):
+            if(last_login != None):
+                if (last_login.date() < datetime.date.today()):
+                    current_user = Users.objects.get(username=user)
+                    current_user.balance = current_user.balance + 1000
+                    current_user.save()
+            else:
                 current_user = Users.objects.get(username=user)
                 current_user.balance = current_user.balance + 1000
                 current_user.save()
