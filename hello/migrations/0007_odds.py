@@ -10,13 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Odds',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('game_ID', models.PositiveIntegerField()),
-                ('team1_odds', models.DecimalField(decimal_places=2, max_digits=3)),
-                ('team2_odds', models.DecimalField(decimal_places=2, max_digits=3)),
-            ],
-        ),
+       
     ]

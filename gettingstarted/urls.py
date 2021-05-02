@@ -13,42 +13,28 @@ admin.autodiscover()
 # Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
 
 urlpatterns = [
-    path("", hello.views.index, name="hello"),
-    # path("db/", hello.views.db, name="db"),
     path("admin/", admin.site.urls),
-    path('Home.html', views.home),
-    path('Sign Up.html', views.signUp),
-    path('Login.html', views.login_view),
-    path('CSGO.html', views.CSGO),
-    path('DOTA.html', views.DOTA),
-    path('Player Rankings.html', views.player_rankings),
-    path('League.html', views.League),
-    path('Baseball.html', views.Baseball),
-    path('Hockey.html', views.Hockey),
-    path('Basketball.html', views.Basketball),
-    path('eSports.html', views.eSports),
-    path('My Bets.html', views.myBets),
-    path('Sports.html', views.sports),
-    path('Rewards.html', views.rewards),
-    path('My Profile.html', views.myProfile),
-    path('Inventory.html', views.inventory),
-    path('test.html', views.test),
-    path('test_mybets.html', views.test_mybets, name='test_mybets'),
-    path('bet_button.html', views.bet_button),
 
+    path('', views.home, name='Paper Gainz'),
+    path('Home.html', views.home, name='Paper Gainz'),
+    path('Login.html', views.login_view, name='Login'),
+    path('Sign Up.html', views.signUp, name='Sign Up'),
+    path('My Profile.html', views.myProfile, name='My Profile'),
+    path('My Bets.html', views.myBets, name='My Bet History'),
+    path('FAQ.html', views.FAQ, name='Frequently Asked Questions'),
 
+    path('eSports.html', views.eSports, name='eSports'),
+    path('CSGO.html', views.CSGO, name='CS:GO'),
+    path('League.html', views.League, name='League of Legends'),
+    path('DOTA.html', views.DOTA, name='DOTA 2'),
+    path('Player Rankings.html', views.player_rankings, name='Dota Pro Player Rankings'),
+
+    path('Sports.html', views.sports, name='Sports'),
+    path('Baseball.html', views.Baseball, name='MBA'),
+    path('Basketball.html', views.Basketball, name='NBA'),
+    path('Hockey.html', views.Hockey, name='NHL'),
+
+    path('test_gamepage.html', views.test_gamepage, name='Testing Game Page'),
+    path('test_mybets.html', views.test_mybets, name='Testing Bet History'),
+    path('test_signup.html', views.test_signup, name='Testing Signup')
 ]
-
-# urltestpatterns = [
-    # path('admin/', admin.site.urls),
-    # path('Home.html', views.home),
-    # path('Sign Up.html', views.signUp),
-    # path('CSGO.html', views.CSGO),
-    # path('eSports.html', views.eSports),
-    # path('My Bets.html', views.myBets),
-    # path('Sports.html', views.sports),
-    # path('Rewards.html', views.rewards),
-    # path('My Profile.html', views.myProfile),
-    # path('Inventory.html', views.inventory)
-#
-# ]
