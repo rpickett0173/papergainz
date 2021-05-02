@@ -1,9 +1,27 @@
+<head>
+<style>
+body {
+  filter: grayscale(0%);
+}
+.dark-mode {
+  filter: grayscale(100%);
+}
+</style>
+</head>
+
+<script>
+function changeGrayscale() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+}
+</script>
+
 <!DOCTYPE html>
 <html>
 <body>
 
 <p>Click the button to create an IMG element.</p>
-
+<span class=" aw5Odc" style="text-decoration: underline;"><button onclick="changeGrayscale()">Color/B&W</button></span>   |   
 <button onclick="myFunction()">Try it</button>
 
 <script>
@@ -13,7 +31,7 @@ function myFunction() {
   a.setAttribute("width", "304");
   a.setAttribute("height", "228");
   a.setAttribute("alt", "paper_gainz_logo");
-  
+
     var x = document.createElement("TABLE");
   x.setAttribute("id", "myTable");
   document.body.appendChild(x);
