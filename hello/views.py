@@ -703,9 +703,9 @@ class GameData_Handler():
         teams = hockeyTeams(year=2021)
         Hockey_ID = "3"
         Hockey_Game_Counter =0
-        Game_data = Games(name="Vegas Golden Knights Anaheim Ducks", time_data=datetime.datetime.strptime('2021-02-27',"%Y-%m-%d"), sport='Hockey', team1="Vegas Golden Knights", team1_amount=0,
-                          team1_odds=.5, team2="Anaheim Ducks", team2_amount=0, team2_odds=.5, match_id="373")
-        Game_data.save()
+        # Game_data = Games(name="Vegas Golden Knights Anaheim Ducks", time_data=datetime.datetime.strptime('2021-02-27',"%Y-%m-%d"), sport='Hockey', team1="Vegas Golden Knights", team1_amount=0,
+        #                   team1_odds=.5, team2="Anaheim Ducks", team2_amount=0, team2_odds=.5, match_id="373")
+        # Game_data.save()
         for team in teams: # for every team
             print("\nTeam 1: ", team.name)
             team_1 = team.name
