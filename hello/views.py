@@ -310,7 +310,7 @@ def Hockey(request):
                             team1=team1, team2=team2, team_bet=team_bet, username=current_user)
                 temp.save()
                 #updating match odds
-                GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
+                # GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
 
     context = {
         'form':form,
