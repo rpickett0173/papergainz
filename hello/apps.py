@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+import datetime
 
 
 class HomeConfig(AppConfig):
@@ -6,6 +7,7 @@ class HomeConfig(AppConfig):
     name = 'hello'
 
     def ready(self):
-        print("\nstarting scheduler ...")
+        print("starting scheduler ...")
+        print(datetime.datetime.today())
         from .Scheduler import updater
         updater.start()
