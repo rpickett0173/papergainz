@@ -134,7 +134,6 @@ def placeBet(request):
             team2=game.team2
             current_user = Users.objects.get(username=request.user.username)
             if (bet_amount < current_user.balance and game.time_data.strptime(game.time_data.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')):
-                print("\n\nDEBUG222\n\n")
                 current_user.balance = current_user.balance - bet_amount
                 current_user.save()
                 print("\n\nDEBUG333\n\n")
@@ -145,11 +144,11 @@ def placeBet(request):
                 temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount, team1=team1, team2=team2, team_bet=team_bet,username= current_user, bet_odds=bet_odds)
                 temp.save()
                 odds=GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-        else: 
+        else:
             print("invalid")
-        
 
-                
+
+
 
     context = {
         'form':form,
@@ -251,11 +250,11 @@ class GameData_Handler():
         if(match.team1_amount==0):
             match.team1_amount=1
         if(match.team2_amount==0):
-            match.team2_amount=1 
+            match.team2_amount=1
 
         if(team==match.team1):
             match.team1_amount += amount
-        else:   
+        else:
             match.team2_amount += amount
 
         total = match.team1_amount  + match.team2_amount
@@ -271,9 +270,9 @@ class GameData_Handler():
 
         print(match.team2_odds)
 
-        
+
         match.save()
- 
+
         if(team==match.team1):
             return match.team1_odds
         else:
@@ -284,16 +283,16 @@ class GameData_Handler():
         betData = Bets.objects.filter(game_ID=game_ID)
         userData = Users.objects.all()
         match = Games.objects.get(match_id=game_ID)
-        
+
         match.winner=match.team1
-        
+
         for bet in betData:
             if(bet.team_bet == match.winner):
                 print("Dealing with a win with username: ")
                 print(bet.username)
                 if(bet.result == None):
                     winloss = (bet.bet_odds*bet.bet_amount) # replace 1 with the decimal odds value
-                    
+
                     bet.winloss=winloss
                     bet.result=True
                     bet.save()
@@ -316,7 +315,7 @@ class GameData_Handler():
                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
 
-        
+
 
     def calculate_payout_esport(self):
         betData = Bets.objects.all()
@@ -486,8 +485,8 @@ class GameData_Handler():
             for game in teamSchedule: # for every game in their schedule
                 Hockey_Game_Counter += 1
                 if (game.datetime.date() < today): # and if that game is in the future
-                    gameID= Hockey_ID + str(Hockey_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = Hockey_ID + str(Hockey_Game_Counter)
+                    gameID = int(gameID)
                     print(gameID)
                     if(int(gameID) == 373):
                         print("Game ID Sport:", gameID)
@@ -544,7 +543,7 @@ class GameData_Handler():
                 Bball_Game_Counter += 1
                 if (game.datetime.date() < today):
                     gameID = Bball_ID + str(Bball_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
@@ -595,7 +594,7 @@ class GameData_Handler():
                 Baseball_Game_Counter += 1
                 if (today > game.datetime.date()):
                     gameID = Baseball_ID + str(Baseball_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
