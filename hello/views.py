@@ -67,7 +67,7 @@ def login_view(request):
                     current_user.save()
             else:
                 current_user = Users.objects.get(username=user)
-                current_user.balance = current_user.balance + 1000
+                current_user.balance = current_user.balance
                 current_user.save()
             return redirect('Home.html')
     else:
@@ -98,226 +98,91 @@ def myBets(request):
 
     return render(request, 'My Bets.html')
 
-
-
-
 def FAQ(request):
     return render(request, 'FAQ.html')
 
 
+def placeBet(request):
+    gameData= Games.objects.all()
+    form = BetForm(request.POST or None)
+
+
+    print("\n\nDEBUG1111\n\n")
+
+
+    if request.user.is_authenticated:
+        print("\ndoesnt even get authenticated")
+        if form.is_valid():
+            print('is valid')
+            user_ID = request.user.id
+            game_ID = form.cleaned_data['game_ID']
+            date_placed = datetime.datetime.today()
+            team_bet = form.cleaned_data['team_bet']
+            bet_amount = form.cleaned_data['bet_amount']
+            if(team_bet=="force" and bet_amount==1234):
+                print("\nCALLING FORCE PAYOUT\n")
+                GameData_Handler.forcePayout(game_ID)
+                form = BetForm(request.POST or None)
+                context = {
+                    'form':form,
+                    'gameData' : gameData
+                }
+                return context
+            print('\nNOT FORCING PAYOUT\n')
+            game = Games.objects.get(match_id=game_ID)
+            team1=game.team1
+            team2=game.team2
+            current_user = Users.objects.get(username=request.user.username)
+            if (bet_amount < current_user.balance and game.time_data.strptime(game.time_data.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')):
+                print("\n\nDEBUG222\n\n")
+                current_user.balance = current_user.balance - bet_amount
+                current_user.save()
+                print("\n\nDEBUG333\n\n")
+                if(team_bet==game.team1):
+                    bet_odds=game.team1_odds
+                else:
+                    bet_odds=game.team2_odds
+                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount, team1=team1, team2=team2, team_bet=team_bet,username= current_user, bet_odds=bet_odds)
+                temp.save()
+                odds=GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
+        else: 
+            print("invalid")
+        
+
+                
+
+    context = {
+        'form':form,
+        'gameData' : gameData
+    }
+
+    return context
+
 def eSports(request):
     return render(request, 'eSports.html')
 
-
 def CSGO(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount, team1=team1, team2=team2, team_bet=team_bet,username= current_user)
-                temp.save()
-
-                #updating match odds
-                # GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'CSGO.html', context)
-
-
+    return render(request, 'CSGO.html', placeBet(request))
 def League(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
-                            team1=team1, team2=team2, team_bet=team_bet, username=current_user)
-                temp.save()
-                #updating match odds
-                #GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'League.html', context)
-
-
+    return render(request, 'League.html', placeBet(request))
 def DOTA(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
-                            team1=team1, team2=team2, team_bet=team_bet, username=current_user)
-                temp.save()
-                #updating match odds
-                #GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'DOTA.html', context)
-
-
+    return render(request, 'DOTA.html', placeBet(request))
 def player_rankings(request):
     playerData = DotaPlayerRanking.objects.all()
-
-
-    context = {
-        'playerData' : playerData,
-    }
-
+    context = {'playerData' : playerData}
     return render(request, 'Player Rankings.html', context)
-
 
 
 
 def sports(request):
     return render(request, 'sports.html')
 
-
 def Basketball(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
-                            team1=team1, team2=team2, team_bet=team_bet, username=current_user)
-                temp.save()
-
-                #updating match odds
-                #GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'Basketball.html', context)
-
-
+    return render(request, 'Basketball.html', placeBet(request))
 def Baseball(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
-                            team1=team1, team2=team2, team_bet=team_bet, username=current_user)
-                temp.save()
-
-                #updating match odds
-                #GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'Baseball.html', context)
-
-
+    return render(request, 'Baseball.html', placeBet(request))
 def Hockey(request):
-    gameData= Games.objects.all()
-
-    form = BetForm(request.POST or None)
-    if request.user.is_authenticated:
-        if form.is_valid():
-            user_ID = request.user.id
-            game_ID = form.cleaned_data['game_ID']
-            date_placed = datetime.datetime.today()
-            team_bet = form.cleaned_data['team_bet']
-            bet_amount = form.cleaned_data['bet_amount']
-            game = Games.objects.get(match_id=game_ID)
-            team1=game.team1
-            team2=game.team2
-            current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance):
-                current_user.balance = current_user.balance - bet_amount
-                current_user.save()
-                temp = Bets(user_ID=user_ID, game_ID=game_ID, date_placed=date_placed, bet_amount=bet_amount,
-                            team1=team1, team2=team2, team_bet=team_bet, username=current_user)
-                temp.save()
-                #updating match odds
-                GameData_Handler.updateOdds(game_ID, team_bet, bet_amount)
-
-    context = {
-        'form':form,
-        'gameData' : gameData
-    }
-
-    return render(request, 'Hockey.html', context)
+    return render(request, 'Hockey.html', placeBet(request))
 
 
 
@@ -340,7 +205,6 @@ def test_signup(request):
         form = UserCreationForm()
 
     return render(request, 'test_signup.html', {'form': form})
-
 
 def test_gamepage(request):
     gameData= Games.objects.all()
@@ -365,7 +229,6 @@ def test_gamepage(request):
 
     return render(request, 'test_gamepage.html', context)
 
-
 def test_mybets(request):
     if request.user.is_authenticated:
         betData= Bets.objects.filter(id=request.user.id)
@@ -384,21 +247,81 @@ def test_mybets(request):
 class GameData_Handler():
     def updateOdds(matchid, team, amount):
         #If this is the first bet on a match, a row element needs to be created
-        match=matchs.objects.filter(match_ID=matchid)
+        match=Games.objects.get(match_id=matchid)
+        if(match.team1_amount==0):
+            match.team1_amount=1
+        if(match.team2_amount==0):
+            match.team2_amount=1 
+
         if(team==match.team1):
             match.team1_amount += amount
-        else:
+        else:   
             match.team2_amount += amount
 
-        total = match.team1_amount + match.team2_amount
+        total = match.team1_amount  + match.team2_amount
 
-        match.team1_odds = match.team2_amount/total
-        match.team2_odds = match.team1_amount/total
+
+        match.team1_odds = total/match.team1_amount
+        print("\n")
+
+        print(match.team1_odds)
+
+        match.team2_odds = total/match.team2_amount
+        print("\n")
+
+        print(match.team2_odds)
+
+        
         match.save()
+ 
+        if(team==match.team1):
+            return match.team1_odds
+        else:
+            return match.team2_odds
+
+    def forcePayout(game_ID):
+        print('\nFORCING PAYOUT\n')
+        betData = Bets.objects.filter(game_ID=game_ID)
+        userData = Users.objects.all()
+        match = Games.objects.get(match_id=game_ID)
+        
+        match.winner=match.team1
+        
+        for bet in betData:
+            if(bet.team_bet == match.winner):
+                print("Dealing with a win with username: ")
+                print(bet.username)
+                if(bet.result == None):
+                    winloss = (bet.bet_odds*bet.bet_amount) # replace 1 with the decimal odds value
+                    
+                    bet.winloss=winloss
+                    bet.result=True
+                    bet.save()
+                    for user in userData:
+                        if(bet.username == user.username):
+                            print("Paying win to ")
+                            print(bet.username)
+                            newbalance = user.balance + winloss
+                            user.balance=newbalance
+                            user.save()
+                            print("Set %s balance to %d" %(user.username, newbalance))
+            else:
+                if(bet.result == None):
+                    print("Dealing with a loss with username: ")
+                    print(bet.username)
+                    winloss = -bet.bet_amount
+                    bet.winloss=winloss
+                    bet.result=False
+                    bet.save()
+                    # we dont need to update a loser balance because the amount the lose is already deducted when they lose
+
+
+        
 
     def calculate_payout_esport(self):
         betData = Bets.objects.all()
         userData = Users.objects.all()
+        # LOL
         link_lol = 'https://api.pandascore.co/lol/matches/past?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
         r_lol = requests.get(link_lol)
         data_lol = json.loads(r_lol.text)
@@ -415,30 +338,34 @@ class GameData_Handler():
                     print("No winner")
                     for bet in betData :
                         if(bet.game_ID == gameID):
-                            Bets.objects.filter(id=bet.id).update(winloss=0)
+                            bet.winloss=0
                 else:
                     for bet in betData:
                         if(bet.game_ID == gameID):
                             if(bet.team_bet == winner):
                                 if(bet.result == None):
                                     print("Correct bet")
-                                    winamount = (1*bet.bet_amount) # replace 1 with the decimal odds value
-                                    Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                    Bets.objects.filter(id=bet.id).update(result=True)
+                                    winloss = (bet.bet_odds*bet.bet_amount) # replace 1 with the decimal odds value
+                                    bet.winloss=winloss
+                                    bet.result=True
+                                    bet.save()
                                     for user in userData:
                                         print("Username",user.username)
                                         print("bet user",bet.username)
                                         if(bet.username == user.username):
                                             print(user.username)
-                                            newbalance = user.balance + (bet.bet_amount) + (1*bet.bet_amount) # the 1 here would be replaced by the decimal odds value
+                                            newbalance = user.balance + winloss
                                             print(newbalance)
-                                            Users.objects.filter(username=user.username).update(balance=newbalance)
+
+                                            user.balance=newbalance
+                                            user.save()
                             else:
                                 if(bet.result == None):
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
-                                    Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                    Bets.objects.filter(game_ID=gameID).update(result=False)
+                                    bet.winloss=winloss
+                                    bet.result=false
+                                    bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
         #CSGO Payout
@@ -461,32 +388,35 @@ class GameData_Handler():
                     for bet in betData:
                         if (bet.game_ID == gameID):
                             winloss = -bet.bet_amount
-                            Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                            Bets.objects.filter(game_ID=gameID).update(result=False)
+                            bet.winloss=winloss
+                            bet.result=false
+                            bet.save()
                 else:
                     for bet in betData:
                         if (bet.game_ID == gameID):
                             if (bet.team_bet == winner):
                                 if (bet.result == None):
                                     print("Correct bet")
-                                    winamount = (1 * bet.bet_amount)  # replace 1 with the decimal odds value
-                                    Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                    Bets.objects.filter(id=bet.id).update(result=True)
+                                    winloss = (bet.bet_odds * bet.bet_amount)
+                                    bet.winloss=winloss
+                                    bet.result=True
+                                    bet.save()
                                     for user in userData:
                                         print("Username", user.username)
                                         print("bet user", bet.username)
                                         if (bet.username == user.username):
                                             print(user.username)
-                                            newbalance = user.balance + (bet.bet_amount) + (
-                                                        1 * bet.bet_amount)  # the 1 here would be replaced by the decimal odds value
+                                            newbalance = user.balance + winloss
                                             print(newbalance)
-                                            Users.objects.filter(username=user.username).update(balance=newbalance)
+                                            user.balance=newbalance
+                                            user.save()
                             else:
                                 if (bet.result == None):
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
-                                    Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                    Bets.objects.filter(game_ID=gameID).update(result=False)
+                                    bet.winloss=winloss
+                                    bet.result=false
+                                    bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
         #DOTA2 Payout
@@ -508,31 +438,33 @@ class GameData_Handler():
                     print("No winner")
                     for bet in betData:
                         if (bet.game_ID == gameID):
-                            Bets.objects.filter(id=bet.id).update(winloss=0)
+                            bet.winloss=0
                 else:
                     for bet in betData:
                         if (bet.game_ID == gameID):
                             if (bet.team_bet == winner): #IF WIN
                                 if (bet.result == None):
                                     print("Correct bet")
-                                    winamount = (1 * bet.bet_amount)  # replace 1 with the decimal odds value
-                                    Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                    Bets.objects.filter(id=bet.id).update(result=True)
+                                    winloss = (bet.bet_odds * bet.bet_amount)
+                                    bet.winloss=winloss
+                                    bet.result=True
+                                    bet.save()
                                     for user in userData:
                                         print("Username", user.username)
                                         print("bet user", bet.username)
                                         if (bet.username == user.username):
                                             print(user.username)
-                                            newbalance = user.balance + (bet.bet_amount) + (
-                                                        1 * bet.bet_amount)  # the 1 here would be replaced by the decimal odds value
+                                            newbalance = user.balance + winloss
                                             print(newbalance)
-                                            Users.objects.filter(username=user.username).update(balance=newbalance)
+                                            user.balance=newbalance
+                                            user.save()
                             else: # IF LOSE
                                 if (bet.result == None):
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
-                                    Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                    Bets.objects.filter(game_ID=gameID).update(result=False)
+                                    bet.winloss=winloss
+                                    bet.result=false
+                                    bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
     def calculate_payout_sport(self):
@@ -569,7 +501,7 @@ class GameData_Handler():
                         print("No winner")
                         for bet in betData:
                             if (bet.game_ID == gameID):
-                                Bets.objects.filter(id=bet.id).update(winloss=0)
+                                bet.winloss=0
                     else:
                         for bet in betData:
                             if (int(gameID) == 373):
@@ -578,25 +510,28 @@ class GameData_Handler():
                                 if (bet.team_bet == winner):
                                     if (bet.result == None):
                                         print("Correct bet")
-                                        winamount = (1 * bet.bet_amount)  # replace 1 with the decimal odds value
-                                        Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                        Bets.objects.filter(id=bet.id).update(result=True)
+                                        winloss = (bet.bet_odds * bet.bet_amount)
+                                        bet.winloss=winloss
+                                        bet.result=True
+                                        bet.save()
                                         for user in userData:
                                             print("Username", user.username)
                                             print("bet user", bet.username)
                                             if (bet.username == user.username):
                                                 print(user.username)
-                                                newbalance = user.balance + (bet.bet_amount) + (
-                                                        1 * bet.bet_amount)  # the 1 here would be replaced by the decimal odds value
+                                                newbalance = user.balance + winloss
                                                 print(newbalance)
-                                                Users.objects.filter(username=user.username).update(balance=newbalance)
+                                                user.balance=newbalance
+                                                user.save()
                                 else:
                                     if (bet.result == None):
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
-                                        Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                        Bets.objects.filter(game_ID=gameID).update(result=False)
+                                        bet.winloss=winloss
+                                        bet.result=false
+                                        bet.save()
 
+        # Basketball payout
         today = datetime.date.today()
         teams = basketballTeams(year=2021)
         Bball_ID = "2"
@@ -609,6 +544,7 @@ class GameData_Handler():
                 Bball_Game_Counter += 1
                 if (game.datetime.date() < today):
                     gameID = Bball_ID + str(Bball_Game_Counter)
+                    gameID=int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
@@ -618,32 +554,35 @@ class GameData_Handler():
                         print("No winner")
                         for bet in betData:
                             if (bet.game_ID == gameID):
-                                Bets.objects.filter(id=bet.id).update(winloss=0)
+                                bet.winloss=0
                     else:
                         for bet in betData:
                             if (bet.game_ID == gameID):
                                 if (bet.team_bet == winner):
                                     if (bet.result == None):
                                         print("Correct bet")
-                                        winamount = (1 * bet.bet_amount)  # replace 1 with the decimal odds value
-                                        Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                        Bets.objects.filter(id=bet.id).update(result=True)
+                                        winloss = (bet.bet_odds * bet.bet_amount)
+                                        bet.winloss=winloss
+                                        bet.result=True
+                                        bet.save()
                                         for user in userData:
                                             print("Username", user.username)
                                             print("bet user", bet.username)
                                             if (bet.username == user.username):
                                                 print(user.username)
-                                                newbalance = user.balance + (bet.bet_amount) + (
-                                                        1 * bet.bet_amount)  # the 1 here would be replaced by the decimal odds value
+                                                newbalance = user.balance + winloss
                                                 print(newbalance)
-                                                Users.objects.filter(username=user.username).update(balance=newbalance)
+                                                user.balance=newbalance
+                                                user.save()
                                 else:
                                     if (bet.result == None):
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
-                                        Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                        Bets.objects.filter(game_ID=gameID).update(result=False)
+                                        bet.winloss=winloss
+                                        bet.result=false
+                                        bet.save()
 
+        #baseball payout
         today = datetime.date.today()
         teams = baseballTeams(year=2021)
         Baseball_ID = "1"
@@ -656,6 +595,7 @@ class GameData_Handler():
                 Baseball_Game_Counter += 1
                 if (today > game.datetime.date()):
                     gameID = Baseball_ID + str(Baseball_Game_Counter)
+                    gameID=int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
@@ -665,31 +605,33 @@ class GameData_Handler():
                         print("No winner")
                         for bet in betData:
                             if (bet.game_ID == gameID):
-                                Bets.objects.filter(id=bet.id).update(winloss=0)
+                                bet.winloss=0
                     else:
                         for bet in betData:
                             if (bet.game_ID == gameID):
                                 if (bet.team_bet == winner):
                                     if (bet.result == None):
                                         print("Correct bet")
-                                        winamount = (1 * bet.bet_amount)  # replace 1 with the decimal odds value
-                                        Bets.objects.filter(id=bet.id).update(winloss=winamount)
-                                        Bets.objects.filter(id=bet.id).update(result=True)
+                                        winloss = (bet.bet_odds * bet.bet_amount)
+                                        bet.winloss=winloss
+                                        bet.result=True
+                                        bet.save()
                                         for user in userData:
                                             print("Username", user.username)
                                             print("bet user", bet.username)
                                             if (bet.username == user.username):
                                                 print(user.username)
-                                                newbalance = user.balance + (bet.bet_amount) + (
-                                                        1 * bet.bet_amount)  # the 1 here would be replaced by the decimal odds value
+                                                newbalance = user.balance + winloss
                                                 print(newbalance)
-                                                Users.objects.filter(username=user.username).update(balance=newbalance)
+                                                user.balance=newbalance
+                                                user.save()
                                 else:
                                     if (bet.result == None):
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
-                                        Bets.objects.filter(game_ID=gameID).update(winloss=winloss)
-                                        Bets.objects.filter(game_ID=gameID).update(result=False)
+                                        bet.winloss=winloss
+                                        bet.result=false
+                                        bet.save()
 
 
     def get_api_data(self):
@@ -704,7 +646,7 @@ class GameData_Handler():
         Hockey_ID = "3"
         Hockey_Game_Counter =0
         Game_data = Games(name="Vegas Golden Knights Anaheim Ducks", time_data=datetime.datetime.strptime('2021-02-27',"%Y-%m-%d"), sport='Hockey', team1="Vegas Golden Knights", team1_amount=0,
-                          team1_odds=.5, team2="Anaheim Ducks", team2_amount=0, team2_odds=.5, match_id="373")
+                          team1_odds=1.5, team2="Anaheim Ducks", team2_amount=0, team2_odds=1.5, match_id="373")
         Game_data.save()
         for team in teams: # for every team
             print("\nTeam 1: ", team.name)
@@ -728,7 +670,7 @@ class GameData_Handler():
                         print("\nStarting time", startTime)
                         Game_data = Games()
                         Game_ID = Hockey_ID + str(Hockey_Game_Counter)
-                        Game_data = Games(name=gameName, time_data=startTime, sport='Hockey', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=Game_ID)
+                        Game_data = Games(name=gameName, time_data=startTime, sport='Hockey', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=Game_ID)
                         Game_data.save()
                         print("\ndata added")
                     add_to_list = True
@@ -757,7 +699,7 @@ class GameData_Handler():
                         print("\nTeam 2: ", team.name)
                         print("\nStarting time", startTime)
                         Game_ID = Bball_ID + str(Bball_Game_Counter)
-                        Game_data = Games(name=gameName, time_data=startTime, sport='BasketBall', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=Game_ID)
+                        Game_data = Games(name=gameName, time_data=startTime, sport='BasketBall', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=Game_ID)
                         Game_data.save()
                         print("\ndata added")
                     add_to_list = True
@@ -790,7 +732,7 @@ class GameData_Handler():
                         print("\nTeam 2: ", team.name)
                         print("\nStarting time", startTime)
                         Game_ID = Baseball_ID + str(Baseball_Game_Counter)
-                        Game_data = Games(name=gameName, time_data=startTime, sport='baseball', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=Game_ID)
+                        Game_data = Games(name=gameName, time_data=startTime, sport='baseball', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=Game_ID)
                         Game_data.save()
                         print("\ndata added")
                     add_to_list = True
@@ -820,7 +762,7 @@ class GameData_Handler():
                 print(team_1)
                 team_2 = teams[1]['opponent']['name']
                 print(team_2)
-                Game_data = Games(name=gameName, time_data=time, sport='LOL', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=gameID)
+                Game_data = Games(name=gameName, time_data=time, sport='LOL', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=gameID)
                 Game_data.save()
             print("\n")
 
@@ -849,7 +791,7 @@ class GameData_Handler():
                 print(team_1)
                 team_2 = teams[1]['opponent']['name']
                 print(team_2)
-                Game_data = Games(name=gameName, time_data=time, sport='dota2', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=gameID)
+                Game_data = Games(name=gameName, time_data=time, sport='dota2', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=gameID)
                 Game_data.save()
             print("\n")
 
@@ -878,7 +820,7 @@ class GameData_Handler():
                 print(team_1)
                 team_2 = teams[1]['opponent']['name']
                 print(team_2)
-                Game_data = Games(name=gameName, time_data=time, sport='CSGO', team1=team_1, team1_amount=0, team1_odds=.5, team2=team_2, team2_amount=0, team2_odds=.5, match_id=gameID)
+                Game_data = Games(name=gameName, time_data=time, sport='CSGO', team1=team_1, team1_amount=0, team1_odds=1.5, team2=team_2, team2_amount=0, team2_odds=1.5, match_id=gameID)
                 Game_data.save()
             print("\n")
         print("\nDONE WITH CSGO")

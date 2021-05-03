@@ -14,11 +14,11 @@ class Games(models.Model):
     sport = models.CharField(max_length=300)
     time_data = models.DateTimeField()
     team1 = models.CharField(max_length=300)
-    team1_odds = models.DecimalField(max_digits=3, decimal_places=2,default=.5)
-    team1_amount = models.PositiveIntegerField(default=0)
+    team1_odds = models.FloatField(default=1.5)
+    team1_amount = models.PositiveIntegerField(default=1)
     team2 = models.CharField(max_length=300)
-    team2_odds = models.DecimalField(max_digits=3, decimal_places=2,default=.5)
-    team2_amount = models.PositiveIntegerField(default=0)
+    team2_odds = models.FloatField(default=1.5)
+    team2_amount = models.PositiveIntegerField(default=1)
     winner = models.CharField(max_length=300)
     def __str__(self):
         return self.name
@@ -43,6 +43,7 @@ class Bets(models.Model):
     team_bet = models.CharField(max_length=300,null=True)
     date_placed = models.DateTimeField() #auto_now automatically makes this value the current time when the method is called
     bet_amount = models.PositiveIntegerField()
+    bet_odds = models.FloatField(default=1.5)
     result = models.BooleanField(null=True)
     winloss = models.IntegerField(null=True)
     def __str__(self):

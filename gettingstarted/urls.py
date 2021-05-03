@@ -36,5 +36,5 @@ urlpatterns = [
 
     path('test_gamepage.html', views.test_gamepage, name='Testing Game Page'),
     path('test_mybets.html', views.test_mybets, name='Testing Bet History'),
-    path('test_signup.html', views.test_signup, name='Testing Signup')
+    path('test_signup.html', views.test_signup, name='Testing Signup'),
 ]
