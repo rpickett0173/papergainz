@@ -554,8 +554,8 @@ class GameData_Handler():
             for game in teamSchedule: # for every game in their schedule
                 Hockey_Game_Counter += 1
                 if (game.datetime.date() < today): # and if that game is in the future
-                    gameID= Hockey_ID + str(Hockey_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = Hockey_ID + str(Hockey_Game_Counter)
+                    gameID = int(gameID)
                     print(gameID)
                     if(int(gameID) == 373):
                         print("Game ID Sport:", gameID)
@@ -609,7 +609,7 @@ class GameData_Handler():
                 Bball_Game_Counter += 1
                 if (game.datetime.date() < today):
                     gameID = Bball_ID + str(Bball_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
@@ -657,7 +657,7 @@ class GameData_Handler():
                 Baseball_Game_Counter += 1
                 if (today > game.datetime.date()):
                     gameID = Baseball_ID + str(Baseball_Game_Counter)
-                    gameID=int(gameID)
+                    gameID = int(gameID)
                     if (game.result == 'Win'):
                         winner = team_1
                     else:
