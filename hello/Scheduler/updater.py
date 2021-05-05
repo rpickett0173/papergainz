@@ -17,9 +17,9 @@ def start():
     scheduler.add_job(gamedata.calculate_payout_esport,"interval", minutes=59, seconds=59, id="eSportPayout_job", replace_existing=True)
     scheduler.add_job(gamedata.calculate_payout_sport,"interval", minutes=59, seconds=59, id="SportPayout_job", replace_existing=True)
 
-    # Force timers
-    scheduler.add_job(gamedata.get_api_data, "cron",hour=4, minute=6, second=0, id="API_job", replace_existing=True)
-    scheduler.add_job(gamedata.calculate_payout_esport, "cron",hour=4, minute=6, second=0, id="eSportPayout_job", replace_existing=True)
-    scheduler.add_job(gamedata.calculate_payout_sport, "cron",hour=3,minute=57,second=0, id="SportPayout_job", replace_existing=True)
+    # Force timers (UTC)
+    scheduler.add_job(gamedata.get_api_data, "cron",hour=4, minute=24, second=0, id="API_job", replace_existing=True)
+    scheduler.add_job(gamedata.calculate_payout_esport, "cron",hour=4, minute=24, second=0, id="eSportPayout_job", replace_existing=True)
+    scheduler.add_job(gamedata.calculate_payout_sport, "cron",hour=4,minute=24,second=0, id="SportPayout_job", replace_existing=True)
 
     scheduler.start()
