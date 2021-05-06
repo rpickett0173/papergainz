@@ -12,8 +12,8 @@ def start():
     # scheduler.add_job(gamedata.calculate_payout_sport,"cron",hour=4,minute=59,second=59, id="Payout_job", replace_existing=True)
 
     # interval timers
-    scheduler.add_job(gamedata.DotaRank,"interval", minutes=5, seconds=0, id="game_collector_001", replace_existing=True)
-    scheduler.add_job(gamedata.get_api_data,"interval", minutes=5, seconds=0, id="API_job", replace_existing=True)
+    # scheduler.add_job(gamedata.DotaRank,"interval", minutes=5, seconds=0, id="game_collector_001", replace_existing=True)
+    # scheduler.add_job(gamedata.get_api_data,"interval", minutes=5, seconds=0, id="API_job", replace_existing=True)
     scheduler.add_job(gamedata.calculate_payout_esport,"interval", minutes=5, seconds=0, id="eSportPayout_job", replace_existing=True)
     scheduler.add_job(gamedata.calculate_payout_sport,"interval", minutes=5, seconds=0, id="SportPayout_job", replace_existing=True)
 
