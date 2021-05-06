@@ -338,6 +338,7 @@ class GameData_Handler():
                     for bet in betData :
                         if(bet.game_ID == gameID):
                             bet.winloss=0
+                            bet.save()
                 else:
                     for bet in betData:
                         if(bet.game_ID == gameID):
@@ -368,7 +369,7 @@ class GameData_Handler():
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
         #CSGO Payout
-        link_csgo = 'https://api.pandascore.co/csgo/matches/upcoming?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
+        link_csgo = 'https://api.pandascore.co/csgo/matches/past?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
         r_csgo = requests.get(link_csgo)
         data_csgo = json.loads(r_csgo.text)
         for game in data_lol:
@@ -419,7 +420,7 @@ class GameData_Handler():
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
         #DOTA2 Payout
-        link_dota = 'https://api.pandascore.co/dota2/matches/upcoming?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
+        link_dota = 'https://api.pandascore.co/dota2/matches/past?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
         r_dota = requests.get(link_dota)
         data_dota = json.loads(r_dota.text)
         for game in data_lol:
@@ -438,6 +439,7 @@ class GameData_Handler():
                     for bet in betData:
                         if (bet.game_ID == gameID):
                             bet.winloss=0
+                            bet.save()
                 else:
                     for bet in betData:
                         if (bet.game_ID == gameID):
@@ -501,6 +503,7 @@ class GameData_Handler():
                         for bet in betData:
                             if (bet.game_ID == gameID):
                                 bet.winloss=0
+                                bet.save()
                     else:
                         for bet in betData:
                             if (int(gameID) == 373):
@@ -554,6 +557,7 @@ class GameData_Handler():
                         for bet in betData:
                             if (bet.game_ID == gameID):
                                 bet.winloss=0
+                                bet.save()
                     else:
                         for bet in betData:
                             if (bet.game_ID == gameID):
@@ -605,6 +609,7 @@ class GameData_Handler():
                         for bet in betData:
                             if (bet.game_ID == gameID):
                                 bet.winloss=0
+                                bet.save()
                     else:
                         for bet in betData:
                             if (bet.game_ID == gameID):
