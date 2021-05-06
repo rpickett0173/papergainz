@@ -369,7 +369,7 @@ class GameData_Handler():
         link_csgo = 'https://api.pandascore.co/csgo/matches/past?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
         r_csgo = requests.get(link_csgo)
         data_csgo = json.loads(r_csgo.text)
-        for game in data_lol:
+        for game in data_csgo:
             print(game)
             gameID = game['id']
             print("Game ID:", gameID)
@@ -420,7 +420,7 @@ class GameData_Handler():
         link_dota = 'https://api.pandascore.co/dota2/matches/past?token=fQNSOqsNLnSeovs8fk1mzbjPAsl9bYX68UBsm5hWpjIo21rk0cg'
         r_dota = requests.get(link_dota)
         data_dota = json.loads(r_dota.text)
-        for game in data_lol:
+        for game in data_dota:
             print(game)
             gameID = game['id']
             print("Game ID:", gameID)
