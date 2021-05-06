@@ -20,7 +20,7 @@ def start():
     # Force timers (UTC)
     # scheduler.add_job(gamedata.DotaRank, "cron",hour=0,minute=58,second=0, id="game_collector_001", replace_existing=True)
     # scheduler.add_job(gamedata.get_api_data, "cron",hour=0,minute=58,second=0, id="API_job", replace_existing=True)
-    scheduler.add_job(gamedata.calculate_payout_esport, "cron",hour=2,minute=6,second=0, id="eSportPayout_job", replace_existing=True)
-    scheduler.add_job(gamedata.calculate_payout_sport, "cron",hour=2,minute=6,second=0, id="SportPayout_job", replace_existing=True)
+    scheduler.add_job(gamedata.calculate_payout_esport, "cron",hour=2,minute=11,second=0, id="eSportPayout_job", replace_existing=True)
+    scheduler.add_job(gamedata.calculate_payout_sport, "cron",hour=2,minute=11,second=0, id="SportPayout_job", replace_existing=True)
 
     scheduler.start()
