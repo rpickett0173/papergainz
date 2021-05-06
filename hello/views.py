@@ -133,7 +133,7 @@ def placeBet(request):
             team1=game.team1
             team2=game.team2
             current_user = Users.objects.get(username=request.user.username)
-            if (bet_amount < current_user.balance and game.time_data.strptime(game.time_data.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')):
+            if (bet_amount <= current_user.balance and game.time_data.strptime(game.time_data.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')):
                 current_user.balance = current_user.balance - bet_amount
                 current_user.save()
                 print("\n\nDEBUG333\n\n")
