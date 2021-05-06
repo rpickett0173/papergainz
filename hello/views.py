@@ -1,4 +1,4 @@
-from django.shortcuts import render
+Falsefrom django.shortcuts import render
 from django.http import HttpResponse
 import requests
 import os
@@ -282,12 +282,9 @@ class GameData_Handler():
         print('\nFORCING PAYOUT\n')
         betData = Bets.objects.filter(game_ID=game_ID)
         userData = Users.objects.all()
-        match = Games.objects.get(match_id=game_ID)
-
-        match.winner=match.team1
 
         for bet in betData:
-            if(bet.team_bet == match.winner):
+            if(bet.team_bet == bet.team1):
                 print("Dealing with a win with username: ")
                 print(bet.username)
                 if(bet.result == None):
@@ -305,7 +302,7 @@ class GameData_Handler():
                             user.save()
                             print("Set %s balance to %d" %(user.username, newbalance))
             else:
-                if(bet.result == None):
+                if((bet.result == None) or (bet.team_bet == bet.team2)):
                     print("Dealing with a loss with username: ")
                     print(bet.username)
                     winloss = -bet.bet_amount
@@ -364,7 +361,7 @@ class GameData_Handler():
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
                                     bet.winloss=winloss
-                                    bet.result=false
+                                    bet.result=False
                                     bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
@@ -389,7 +386,7 @@ class GameData_Handler():
                         if (bet.game_ID == gameID):
                             winloss = -bet.bet_amount
                             bet.winloss=winloss
-                            bet.result=false
+                            bet.result=False
                             bet.save()
                 else:
                     for bet in betData:
@@ -415,7 +412,7 @@ class GameData_Handler():
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
                                     bet.winloss=winloss
-                                    bet.result=false
+                                    bet.result=False
                                     bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
@@ -464,7 +461,7 @@ class GameData_Handler():
                                     print("wrong bet")
                                     winloss = -bet.bet_amount
                                     bet.winloss=winloss
-                                    bet.result=false
+                                    bet.result=False
                                     bet.save()
                                     # we dont need to update a loser balance because the amount the lose is already deducted when they lose
 
@@ -530,7 +527,7 @@ class GameData_Handler():
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
                                         bet.winloss=winloss
-                                        bet.result=false
+                                        bet.result=False
                                         bet.save()
 
         # Basketball payout
@@ -582,7 +579,7 @@ class GameData_Handler():
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
                                         bet.winloss=winloss
-                                        bet.result=false
+                                        bet.result=False
                                         bet.save()
 
         #baseball payout
@@ -634,7 +631,7 @@ class GameData_Handler():
                                         print("wrong bet")
                                         winloss = -bet.bet_amount
                                         bet.winloss=winloss
-                                        bet.result=false
+                                        bet.result=False
                                         bet.save()
 
 
@@ -667,7 +664,7 @@ class GameData_Handler():
                     # check for duplicate matches
                     for each in Games.objects.all(): # for each game in the database
                         if (each.team1 == team_2 and each.team2 == team_1 and each.time_data == startTime): # if that game as the same 2 teams and startTime
-                            add_to_list = False #we conclude its in the database, and set the flag for it to be added to false
+                            add_to_list = False #we conclude its in the database, and set the flag for it to be added to False
                     #now we add all new games to the database
                     if (add_to_list != False):
                         print("\nTeam 2: ", team.name)
